@@ -1,6 +1,7 @@
 use std::error::Error;
 use teloxide::{prelude::*, types::Me};
-use crate::{BotDialogue, StartCommand, State};
+use crate::{BotDialogue, StartCommand, Command, State};
+use teloxide::utils::command::BotCommands;
 
 pub type HandlerResult = Result<(), Box<dyn Error + Send + Sync>>;
 
@@ -10,6 +11,19 @@ pub async fn handle_start(
     me: Me
 ) -> HandlerResult {
     bot.send_message(msg.chat.id, "Hello").await?;
+
+    Ok(())
+}
+
+pub async fn handle_help(
+    bot: Bot,
+    msg: Message,
+    me: Me
+) -> HandlerResult {
+    bot.send_message(
+        msg.chat.id, 
+        Command::descriptions().to_string()
+    ).await?;
 
     Ok(())
 }

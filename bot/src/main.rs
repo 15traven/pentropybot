@@ -33,6 +33,8 @@ pub enum StartCommand {
     description = "These commands are supported"
 )]
 pub enum Command {
+    #[command(description = "display this text")]
+    Help,
     #[command(description = "calculate password entropy")]
     Entropy
 }
