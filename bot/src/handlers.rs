@@ -29,6 +29,18 @@ pub async fn handle_help(
     Ok(())
 }
 
+pub async fn handle_cancel(
+    bot: Bot,
+    msg: Message,
+    dialogue: BotDialogue,
+    me: Me
+) -> HandlerResult {
+    dialogue.update(State::Start).await?;
+    bot.send_message(msg.chat.id, "Cancelled").await?;
+    
+    Ok(())
+}
+
 pub async fn handle_info(
     bot: Bot,
     msg: Message,

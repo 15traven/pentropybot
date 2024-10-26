@@ -38,7 +38,9 @@ pub enum Command {
     #[command(description = "get more info about")]
     Info,
     #[command(description = "calculate password entropy")]
-    Entropy
+    Entropy,
+    #[command(description = "cancel the current operation")]
+    Cancel
 }
 
 #[tokio::main]

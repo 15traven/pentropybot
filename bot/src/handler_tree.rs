@@ -18,6 +18,7 @@ pub fn handler_tree() -> UpdateHandler<Box<dyn std::error::Error + Send + Sync +
                 .branch(case![Command::Help].endpoint(handle_help))
                 .branch(case![Command::Info].endpoint(handle_info))
                 .branch(case![Command::Entropy].endpoint(handle_entropy))
+                .branch(case![Command::Cancel].endpoint(handle_cancel))
         )
         .branch(
             Update::filter_message()
