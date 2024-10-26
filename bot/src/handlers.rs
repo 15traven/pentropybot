@@ -32,7 +32,11 @@ pub async fn handle_password(
 ) -> HandlerResult {
     match msg.text() {
         Some(password) => {
-            bot.send_message(msg.chat.id, password).await?;
+            let entropy = entropy::calculate_entropy(password);
+            bot.send_message(
+                msg.chat.id, 
+                format!("Recomended entropy:\n70\nYour password entropy: \n{:.2}", entropy)
+            ).await?;
             dialogue.update(State::Start).await?;
         }
         None => {
