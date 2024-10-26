@@ -52,7 +52,7 @@ pub async fn handle_info(
     ]]);
     bot.send_message(
         msg.chat.id,
-        "This bot was created to help you find out the entropy of your password\n\nPassword entropy is the measure of password strength — how effective the password is against hackers\n\nThis bot is open source. You can read it by clicking the button below the message"
+        "🤖  This bot was created to\n        help you find out the entropy\n        of your password\n\n❓  Password entropy is the measure\n        of password strength — how effective\n        the password is against hackers\n\n📜  This bot is open source.\n        You can read it by clicking\n        the button below the message"
     ).reply_markup(keyboard).await?;
 
     Ok(())
@@ -79,7 +79,7 @@ pub async fn handle_password(
             let entropy = entropy::calculate_entropy(password);
             bot.send_message(
                 msg.chat.id, 
-                format!("Recomended entropy:\n70\nYour password entropy: \n{:.2}", entropy)
+                format!("Recomended entropy:\n70 bits\n\nYour password entropy: \n{:.2} bits", entropy)
             ).await?;
             dialogue.update(State::Start).await?;
         }
