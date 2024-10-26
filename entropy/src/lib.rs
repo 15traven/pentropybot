@@ -1,4 +1,4 @@
-#[derive(Default)]
+#[derive(Default, Clone)]
 struct PasswordParams {
     len: i32,
     has_lowercase: bool,
@@ -34,7 +34,7 @@ fn calculate_charset_size(params: PasswordParams) -> i32 {
 
 pub fn calculate_entropy(password: &str) -> f64 {
     let params = set_params(password);
-    let charset_size = calculate_charset_size(params);
+    let charset_size = calculate_charset_size(params.clone());
     if charset_size == 0 || params.len == 0 {
         return 0.0
     }
