@@ -28,6 +28,19 @@ pub async fn handle_help(
     Ok(())
 }
 
+pub async fn handle_info(
+    bot: Bot,
+    msg: Message,
+    me: Me
+) -> HandlerResult {
+    bot.send_message(
+        msg.chat.id,
+        "This bot was created to help you find out the entropy of your password\n\nPassword entropy is the measure of password strength — how effective the password is against hackers\n\nThis bot is open source. You can read it by clicking the button below the message"
+    ).await?;
+
+    Ok(())
+}
+
 pub async fn handle_entropy(
     bot: Bot,
     dialogue: BotDialogue,
