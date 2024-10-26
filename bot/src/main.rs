@@ -16,7 +16,8 @@ pub type BotDialogue = Dialogue<State, InMemStorage<State>>;
 #[derive(Clone, PartialEq, Debug, Default, Serialize, Deserialize)]
 pub enum State {
     #[default]
-    Start
+    Start,
+    HandlePassword
 }
 
 #[derive(BotCommands, Clone, Debug)]
@@ -24,6 +25,16 @@ pub enum State {
 pub enum StartCommand {
     #[command()]
     Start
+}
+
+#[derive(BotCommands, Clone, Debug)]
+#[command(
+    rename_rule = "lowercase",
+    description = "These commands are supported"
+)]
+pub enum Command {
+    #[command(description = "calculate password entropy")]
+    Entropy
 }
 
 #[tokio::main]

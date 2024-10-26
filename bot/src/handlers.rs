@@ -13,3 +13,32 @@ pub async fn handle_start(
 
     Ok(())
 }
+
+pub async fn handle_entropy(
+    bot: Bot,
+    dialogue: BotDialogue,
+    msg: Message
+) -> HandlerResult {
+    bot.send_message(msg.chat.id, "Please enter your password").await?;
+    dialogue.update(State::HandlePassword).await?;
+
+    Ok(())
+}
+
+pub async fn handle_password(
+    bot: Bot,
+    dialogue: BotDialogue,
+    msg: Message
+) -> HandlerResult {
+    match msg.text() {
+        Some(password) => {
+            bot.send_message(msg.chat.id, password).await?;
+            dialogue.update(State::Start).await?;
+        }
+        None => {
+            bot.send_message(msg.chat.id, "Please enter your password").await?;
+        }
+    }
+
+    Ok(())
+}
