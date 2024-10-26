@@ -6,7 +6,7 @@ use serde::{Serialize, Deserialize};
 
 pub mod handlers;
 
-use handler::{HandlerResult, handle_start};
+use handlers::{HandlerResult, handle_start};
 
 pub type BotDialogue = Dialogue<State, InMemStorage<State>>;
 
