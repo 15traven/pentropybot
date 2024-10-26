@@ -11,7 +11,7 @@ pub async fn handle_start(
     msg: Message,
     me: Me
 ) -> HandlerResult {
-    bot.send_message(msg.chat.id, "Hello").await?;
+    bot.send_message(msg.chat.id, "👋  Hello!\n🤖  This bot was created to help\n        you find out the entropy\n        of your password.\n⌨️  Type /entropy or use\n        menu button to start").await?;
 
     Ok(())
 }
