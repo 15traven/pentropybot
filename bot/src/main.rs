@@ -2,6 +2,7 @@ use teloxide::prelude::*;
 use teloxide::types::Me;
 use teloxide::dispatching::dialogue::InMemStorage;
 use teloxide::macros::BotCommands;
+use dptree::deps;
 use serde::{Serialize, Deserialize};
 
 pub mod handler_tree;
@@ -25,6 +26,13 @@ pub enum StartCommand {
     Start
 }
 
-fn main() {
-    println!("Hello");
+#[tokio::main]
+async fn main() {
+    let bot = Bot::from_env();
+
+    Dispatcher::builder(bot, handler_tree())
+        .dependencies(deps![InMemStorage::<State>::new()])
+        .build()
+        .dispatch()
+        .await;
 }
