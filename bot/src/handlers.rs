@@ -9,7 +9,7 @@ pub async fn handle_start(
     msg: Message,
     me: Me
 ) -> HandlerResult {
-    bot.send_message(msg.chat.id, "Hello");
-    
+    bot.send_message(msg.chat.id, "Hello").await?;
+
     Ok(())
 }
