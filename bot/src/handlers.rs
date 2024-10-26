@@ -1,7 +1,8 @@
 use std::error::Error;
-use teloxide::{prelude::*, types::Me};
+use teloxide::prelude::*;
+use teloxide::types::{InlineKeyboardButton, InlineKeyboardMarkup, Me};
+use teloxide::utils::command::BotCommands;    
 use crate::{BotDialogue, StartCommand, Command, State};
-use teloxide::utils::command::BotCommands;
 
 pub type HandlerResult = Result<(), Box<dyn Error + Send + Sync>>;
 
@@ -33,10 +34,14 @@ pub async fn handle_info(
     msg: Message,
     me: Me
 ) -> HandlerResult {
+    let url = url::Url::parse("https://github.com/15traven/pentropybot")?;
+    let keyboard = InlineKeyboardMarkup::new([[
+        InlineKeyboardButton::url("Source code", url)
+    ]]);
     bot.send_message(
         msg.chat.id,
         "This bot was created to help you find out the entropy of your password\n\nPassword entropy is the measure of password strength — how effective the password is against hackers\n\nThis bot is open source. You can read it by clicking the button below the message"
-    ).await?;
+    ).reply_markup(keyboard).await?;
 
     Ok(())
 }
