@@ -1,15 +1,14 @@
 use std::error::Error;
 use teloxide::prelude::*;
-use teloxide::types::{InlineKeyboardButton, InlineKeyboardMarkup, Me};
+use teloxide::types::{InlineKeyboardButton, InlineKeyboardMarkup};
 use teloxide::utils::command::BotCommands;    
-use crate::{BotDialogue, StartCommand, Command, State};
+use crate::{BotDialogue, Command, State};
 
 pub type HandlerResult = Result<(), Box<dyn Error + Send + Sync>>;
 
 pub async fn handle_start(
     bot: Bot,
-    msg: Message,
-    me: Me
+    msg: Message
 ) -> HandlerResult {
     bot.send_message(msg.chat.id, "👋  Hello!\n🤖  This bot was created to help\n        you find out the entropy\n        of your password.\n⌨️  Type /entropy or use\n        menu button to start").await?;
 
@@ -18,8 +17,7 @@ pub async fn handle_start(
 
 pub async fn handle_help(
     bot: Bot,
-    msg: Message,
-    me: Me
+    msg: Message
 ) -> HandlerResult {
     bot.send_message(
         msg.chat.id, 
@@ -32,8 +30,7 @@ pub async fn handle_help(
 pub async fn handle_cancel(
     bot: Bot,
     msg: Message,
-    dialogue: BotDialogue,
-    me: Me
+    dialogue: BotDialogue
 ) -> HandlerResult {
     dialogue.update(State::Start).await?;
     bot.send_message(msg.chat.id, "Cancelled").await?;
@@ -43,8 +40,7 @@ pub async fn handle_cancel(
 
 pub async fn handle_info(
     bot: Bot,
-    msg: Message,
-    me: Me
+    msg: Message
 ) -> HandlerResult {
     let url = url::Url::parse("https://github.com/15traven/pentropybot")?;
     let keyboard = InlineKeyboardMarkup::new([[
