@@ -6,6 +6,7 @@ use serde::{Serialize, Deserialize};
 
 pub mod handler_tree;
 pub mod handlers;
+pub mod messages;
 
 use handler_tree::handler_tree;
 

@@ -2,7 +2,7 @@ use std::error::Error;
 use teloxide::prelude::*;
 use teloxide::types::{InlineKeyboardButton, InlineKeyboardMarkup};
 use teloxide::utils::command::BotCommands;    
-use crate::{BotDialogue, Command, State};
+use crate::{BotDialogue, Command, State, messages};
 
 pub type HandlerResult = Result<(), Box<dyn Error + Send + Sync>>;
 
@@ -10,7 +10,7 @@ pub async fn handle_start(
     bot: Bot,
     msg: Message
 ) -> HandlerResult {
-    bot.send_message(msg.chat.id, "👋  Hello!\n🤖  This bot was created to help\n        you find out the entropy\n        of your password.\n⌨️  Type /entropy or use\n        menu button to start").await?;
+    bot.send_message(msg.chat.id, messages::START_MESSAGE).await?;
 
     Ok(())
 }
@@ -33,7 +33,7 @@ pub async fn handle_cancel(
     dialogue: BotDialogue
 ) -> HandlerResult {
     dialogue.update(State::Start).await?;
-    bot.send_message(msg.chat.id, "Cancelled").await?;
+    bot.send_message(msg.chat.id, messages::CANCELLED_MESSAGE).await?;
     
     Ok(())
 }
@@ -48,7 +48,7 @@ pub async fn handle_info(
     ]]);
     bot.send_message(
         msg.chat.id,
-        "🤖  This bot was created to\n        help you find out the entropy\n        of your password\n\n❓  Password entropy is the measure\n        of password strength — how effective\n        the password is against hackers\n\n📜  This bot is open source.\n        You can read it by clicking\n        the button below the message"
+        messages::INFO_MESSAGE
     ).reply_markup(keyboard).await?;
 
     Ok(())
@@ -59,7 +59,7 @@ pub async fn handle_entropy(
     dialogue: BotDialogue,
     msg: Message
 ) -> HandlerResult {
-    bot.send_message(msg.chat.id, "Please enter your password").await?;
+    bot.send_message(msg.chat.id, messages::REQUEST_PASSWORD).await?;
     dialogue.update(State::HandlePassword).await?;
 
     Ok(())
@@ -80,7 +80,7 @@ pub async fn handle_password(
             dialogue.update(State::Start).await?;
         }
         None => {
-            bot.send_message(msg.chat.id, "Please enter your password").await?;
+            bot.send_message(msg.chat.id, messages::REQUEST_PASSWORD).await?;
         }
     }
 
