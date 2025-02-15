@@ -32,6 +32,15 @@ pub fn handler_tree() -> UpdateHandler<Box<dyn std::error::Error + Send + Sync +
             )
         )
         .branch(
+            case![State::HandlePassword].branch(
+                Update::filter_message()
+                    .branch(
+                        filter(|msg: Message| msg.text() == Some(keyboards::CANCEL_BUTTON))
+                            .endpoint(handle_cancel)
+                )   
+            )
+        )
+        .branch(
             Update::filter_message()
                 .filter_command::<Command>()
                 .branch(case![Command::Help].endpoint(handle_help))

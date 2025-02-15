@@ -35,7 +35,9 @@ pub async fn handle_cancel(
     dialogue: BotDialogue
 ) -> HandlerResult {
     dialogue.update(State::Start).await?;
-    bot.send_message(msg.chat.id, messages::CANCELLED_MESSAGE).await?;
+    bot.send_message(msg.chat.id, messages::CANCELLED_MESSAGE)
+        .reply_markup(keyboards::menu_keyboard())
+        .await?;
     
     Ok(())
 }
@@ -61,7 +63,9 @@ pub async fn handle_entropy(
     dialogue: BotDialogue,
     msg: Message
 ) -> HandlerResult {
-    bot.send_message(msg.chat.id, messages::REQUEST_PASSWORD).await?;
+    bot.send_message(msg.chat.id, messages::REQUEST_PASSWORD)
+        .reply_markup(keyboards::cancel_keyboard())
+        .await?;
     dialogue.update(State::HandlePassword).await?;
 
     Ok(())
@@ -83,7 +87,7 @@ pub async fn handle_password(
             bot.send_message(
                 msg.chat.id, 
                 format!("Recomended entropy:\n70 bits\n\nYour password entropy: \n{:.2} bits", entropy)
-            ).await?;
+            ).reply_markup(keyboards::menu_keyboard()).await?;
 
             if is_common {
                 bot.send_message(msg.chat.id, messages::COMMON_PASSWORD_MESSAGE).await?;
