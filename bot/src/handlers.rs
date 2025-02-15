@@ -72,11 +72,21 @@ pub async fn handle_password(
 ) -> HandlerResult {
     match msg.text() {
         Some(password) => {
-            let entropy = entropy::calculate_entropy(password);
+            let wait_msg = bot.send_message(msg.chat.id, messages::WAIT_MESSAGE).await?;
+
+            let entropy = password::calculate_entropy(password);
+            let is_common = password::is_common(password);
+
+            let _ = bot.delete_message(msg.chat.id, wait_msg.id).await?;
             bot.send_message(
                 msg.chat.id, 
                 format!("Recomended entropy:\n70 bits\n\nYour password entropy: \n{:.2} bits", entropy)
             ).await?;
+
+            if is_common {
+                bot.send_message(msg.chat.id, messages::COMMON_PASSWORD_MESSAGE).await?;
+            }
+
             dialogue.update(State::Start).await?;
         }
         None => {
