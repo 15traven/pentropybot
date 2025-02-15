@@ -2,7 +2,7 @@ use std::error::Error;
 use teloxide::prelude::*;
 use teloxide::types::{InlineKeyboardButton, InlineKeyboardMarkup};
 use teloxide::utils::command::BotCommands;    
-use crate::{BotDialogue, Command, State, messages};
+use crate::{keyboards, messages, BotDialogue, Command, State};
 
 pub type HandlerResult = Result<(), Box<dyn Error + Send + Sync>>;
 
@@ -10,7 +10,9 @@ pub async fn handle_start(
     bot: Bot,
     msg: Message
 ) -> HandlerResult {
-    bot.send_message(msg.chat.id, messages::START_MESSAGE).await?;
+    bot.send_message(msg.chat.id, messages::START_MESSAGE)
+        .reply_markup(keyboards::menu_keyboard())
+        .await?;
 
     Ok(())
 }
